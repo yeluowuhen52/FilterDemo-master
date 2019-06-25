@@ -36,6 +36,7 @@ import java.util.Collections;
  *
  * @author kymjs (http://www.kymjs.com/) on 9/16/15.
  */
+@Deprecated
 public class FirstOpeartorAdapter extends KJAdapter<Contact> implements SectionIndexer {
 
     private KJBitmap kjb = new KJBitmap();
@@ -58,6 +59,7 @@ public class FirstOpeartorAdapter extends KJAdapter<Contact> implements SectionI
     public void convert(AdapterHolder holder, Contact item, boolean isScrolling, int position) {
 
         holder.setText(R.id.contact_title, item.getName());
+
         ImageView headImg = holder.getView(R.id.contact_head);
 
         TextView tvLetter = holder.getView(R.id.contact_catalog);

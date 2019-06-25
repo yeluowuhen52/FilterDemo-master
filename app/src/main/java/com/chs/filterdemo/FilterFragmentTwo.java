@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.chs.filterdemo.adapter.FirstOpeartorAdapter;
+import com.chs.filterdemo.adapter.FirstPersonAdapter;
 import com.chs.filterdemo.bean.Contact;
 import com.chs.filterdemo.util.HanziToPinyinUtil;
 import com.chs.filterdemo.widget.SideBar;
@@ -24,8 +24,8 @@ import java.util.ArrayList;
  * 邮箱：657083984@qq.com
  */
 
-public class FilterFragmentTwo extends Fragment  implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
-//    private ListView lv_department;
+public class FilterFragmentTwo extends Fragment implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
+    //    private ListView lv_department;
     private ImageView iv_back;
 //    private String departmentName = "";
 //    String[] list;
@@ -33,7 +33,7 @@ public class FilterFragmentTwo extends Fragment  implements SideBar.OnTouchingLe
     private ListView mListView;
     private TextView mFooterView;
     private ArrayList<Contact> datas = new ArrayList<>();
-    private FirstOpeartorAdapter mAdapter;
+    private FirstPersonAdapter mAdapter;
 
     @Nullable
     @Override
@@ -54,7 +54,7 @@ public class FilterFragmentTwo extends Fragment  implements SideBar.OnTouchingLe
         });
 
         SideBar mSideBar = (SideBar) view.findViewById(R.id.school_friend_sidrbar);
-        TextView mDialog = (TextView)  view.findViewById(R.id.school_friend_dialog);
+        TextView mDialog = (TextView) view.findViewById(R.id.school_friend_dialog);
         mListView = (ListView) view.findViewById(R.id.school_friend_member);
         mSideBar.setTextView(mDialog);
         mSideBar.setOnTouchingLetterChangedListener(this);
@@ -93,7 +93,7 @@ public class FilterFragmentTwo extends Fragment  implements SideBar.OnTouchingLe
             datas.add(data);
         }
         mFooterView.setText(datas.size() + "位联系人");
-        mAdapter = new FirstOpeartorAdapter(mListView, datas);
+        mAdapter = new FirstPersonAdapter(getActivity(), datas);
         mListView.setAdapter(mAdapter);
     }
 
