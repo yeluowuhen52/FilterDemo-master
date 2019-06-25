@@ -27,6 +27,8 @@ public class Contact implements Comparable<Contact> {
     private String pinyin;
     private String upperpinyin;
     private char firstChar;
+    //是否选中
+    private boolean isSelected;
 
     public String getUpperpinyin() {
         return upperpinyin;
@@ -49,6 +51,14 @@ public class Contact implements Comparable<Contact> {
         } else {
             firstChar = '#';
         }
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public String getName() {

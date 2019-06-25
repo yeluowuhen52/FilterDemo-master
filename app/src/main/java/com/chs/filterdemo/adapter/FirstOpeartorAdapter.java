@@ -17,7 +17,6 @@ package com.chs.filterdemo.adapter;
 
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -57,11 +56,7 @@ public class FirstOpeartorAdapter extends KJAdapter<Contact> implements SectionI
 
     @Override
     public void convert(AdapterHolder holder, Contact item, boolean isScrolling, int position) {
-
         holder.setText(R.id.contact_title, item.getName());
-
-        ImageView headImg = holder.getView(R.id.contact_head);
-
         TextView tvLetter = holder.getView(R.id.contact_catalog);
         TextView tvLine = holder.getView(R.id.contact_line);
 

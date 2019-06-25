@@ -1,10 +1,11 @@
 package com.chs.filterdemo.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chs.filterdemo.R;
@@ -20,16 +21,14 @@ import java.util.List;
  */
 
 public class FirstPersonAdapter extends BaseAdapter {
-
     private List<Contact> mList;
     private Context mContext;
-
-    private OnCheckBoxSelectedListener onCheckBoxSelectedListener;
+    private OnItemSelectedListener onItemSelectedListener;
 
     /**
      * 展示条目被点击时候的回调接口
      */
-    public interface OnCheckBoxSelectedListener {
+    public interface OnItemSelectedListener {
         /**
          * 展示条目被点击时候的回调接口
          *
@@ -38,8 +37,8 @@ public class FirstPersonAdapter extends BaseAdapter {
         void OnItemSelected(int position);
     }
 
-    public void setOnCheckBoxSelectedListener(OnCheckBoxSelectedListener onCheckBoxSelectedListener) {
-        this.onCheckBoxSelectedListener = onCheckBoxSelectedListener;
+    public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     public FirstPersonAdapter(Context mContext, List<Contact> mList) {
@@ -65,14 +64,14 @@ public class FirstPersonAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        Contact userInfo = mList.get(position);
+        final Contact userInfo = mList.get(position);
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_list_opeartor_person, null);
             viewHolder = new ViewHolder();
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.contact_title);
-
             viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.contact_catalog);
             viewHolder.tvLine = (TextView) convertView.findViewById(R.id.contact_line);
+            viewHolder.llItem = (LinearLayout) convertView.findViewById(R.id.llItem);
 
             convertView.setTag(viewHolder);
         } else {
@@ -100,7 +99,22 @@ public class FirstPersonAdapter extends BaseAdapter {
             }
         }
 
+        if (userInfo.isSelected()) {
+            viewHolder.llItem.setBackgroundColor(Color.BLUE);
+        } else {
+            viewHolder.llItem.setBackgroundColor(Color.WHITE);
+        }
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemSelectedListener != null) {
+                    onItemSelectedListener.OnItemSelected(position);
+                    userInfo.setSelected(!userInfo.isSelected());
+                    notifyList();
+                }
+            }
+        });
         viewHolder.tvName.setText(userInfo.getName());
 
         return convertView;
@@ -127,6 +141,6 @@ public class FirstPersonAdapter extends BaseAdapter {
         TextView tvName;
         TextView tvLetter;
         TextView tvLine;
-        CheckBox chbSelect;
+        LinearLayout llItem;
     }
 }

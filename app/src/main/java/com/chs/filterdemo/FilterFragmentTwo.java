@@ -95,6 +95,14 @@ public class FilterFragmentTwo extends Fragment implements SideBar.OnTouchingLet
         mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new FirstPersonAdapter(getActivity(), datas);
         mListView.setAdapter(mAdapter);
+
+      mAdapter.setOnItemSelectedListener(new FirstPersonAdapter.OnItemSelectedListener() {
+          @Override
+          public void OnItemSelected(int position) {
+
+          }
+      });
+
     }
 
     @Override
