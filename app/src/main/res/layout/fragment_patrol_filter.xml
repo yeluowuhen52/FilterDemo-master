@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@mipmap/patrol_back"
-            />
+            android:background="@mipmap/patrol_back"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,8 +35,7 @@
         android:id="@+id/ll_task_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -131,8 +129,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="全部"
-            android:textColor="@color/gray_text"
-            />
+            android:textColor="@color/gray_text"/>
 
         <ImageView
             android:id="@+id/class_arrow"
@@ -167,8 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/white"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_reset"
