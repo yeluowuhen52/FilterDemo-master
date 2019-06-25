@@ -26,5 +26,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.hyman:flowlayout-lib:1.1.2'
+    compile 'org.kymjs.kjframe:kjframe:2.4.6.2'
+
     testCompile 'junit:junit:4.12'
 }

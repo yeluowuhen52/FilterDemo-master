@@ -53,7 +53,7 @@
             android:id="@+id/id_flowlayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:padding="5dp"
             zhy:max_select="-1"/>
 
         <View
@@ -65,8 +65,7 @@
     <RelativeLayout
         android:id="@+id/rl_department"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView2"
@@ -76,7 +75,7 @@
             android:drawableLeft="@mipmap/patrol_heading"
             android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="部门"/>
+            android:text="入库科室"/>
 
         <ImageView
             android:id="@+id/department_arrow"
@@ -85,8 +84,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/patrol_next_arrow"
-            />
+            android:background="@mipmap/patrol_next_arrow"/>
 
         <TextView
             android:id="@+id/department_selected"
@@ -109,9 +107,9 @@
         android:background="@color/gray_text"/>
 
     <RelativeLayout
+        android:id="@+id/rlSupply"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,8 +118,7 @@
             android:drawableLeft="@mipmap/patrol_heading"
             android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="type"
-            />
+            android:text="供应商"/>
 
         <TextView
             android:id="@+id/class_selected"
@@ -143,20 +140,26 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@mipmap/patrol_drop_down"
-            />
+            android:background="@mipmap/patrol_next_arrow"/>
     </RelativeLayout>
 
-    <GridView
+    <LinearLayout
         android:id="@+id/gv_patrol_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:numColumns="2"
-        android:verticalSpacing="5dp"
-        />
+        android:orientation="vertical">
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/next_flowlayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            zhy:max_select="-1"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

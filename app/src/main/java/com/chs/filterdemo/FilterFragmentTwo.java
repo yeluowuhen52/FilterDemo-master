@@ -3,24 +3,38 @@ package com.chs.filterdemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.chs.filterdemo.adapter.FirstOpeartorAdapter;
+import com.chs.filterdemo.bean.Contact;
+import com.chs.filterdemo.util.HanziToPinyinUtil;
+import com.chs.filterdemo.widget.SideBar;
+
+import java.util.ArrayList;
 
 /**
  * 作者：chs on 2016/10/22 16:01
  * 邮箱：657083984@qq.com
  */
 
-public class FilterFragmentTwo extends Fragment {
-    private ListView lv_department;
+public class FilterFragmentTwo extends Fragment  implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
+//    private ListView lv_department;
     private ImageView iv_back;
-    private String departmentName = "";
-    String[] list;
+//    private String departmentName = "";
+//    String[] list;
+
+    private ListView mListView;
+    private TextView mFooterView;
+    private ArrayList<Contact> datas = new ArrayList<>();
+    private FirstOpeartorAdapter mAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,16 +44,7 @@ public class FilterFragmentTwo extends Fragment {
     }
 
     private void initView(View view) {
-        lv_department = (ListView) view.findViewById(R.id.lv_department);
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
-         list = new String[10];
-        for(int i = 0;i<10;i++){
-            list[i] = "部门"+i;
-        }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,list);
-        lv_department.setAdapter(arrayAdapter);
-
-
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,24 +53,76 @@ public class FilterFragmentTwo extends Fragment {
             }
         });
 
-        lv_department.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                departmentName = list[position];
-//                showNext();
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
-            }
-        });
+        SideBar mSideBar = (SideBar) view.findViewById(R.id.school_friend_sidrbar);
+        TextView mDialog = (TextView)  view.findViewById(R.id.school_friend_dialog);
+        mListView = (ListView) view.findViewById(R.id.school_friend_member);
+        mSideBar.setTextView(mDialog);
+        mSideBar.setOnTouchingLetterChangedListener(this);
+
+        // 给listView设置adapter
+        mFooterView = (TextView) View.inflate(getActivity(), R.layout.item_list_contact_count, null);
+        mListView.addFooterView(mFooterView);
+
+        parser();
     }
-//    private void showNext() {
-//        Fragment fragment = new FilterFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("departmentName",departmentName);
-//        fragment.setArguments(bundle);
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.setCustomAnimations(R.anim.left_in, R.anim.right_out, R.anim.right_in, R.anim.left_out);
-//        fragmentTransaction.replace(R.id.drawer_content, fragment);
-//        fragmentTransaction.commitAllowingStateLoss();
-//    }
+
+    private void parser() {
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("张三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("李三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("王三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+        mFooterView.setText(datas.size() + "位联系人");
+        mAdapter = new FirstOpeartorAdapter(mListView, datas);
+        mListView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onTouchingLetterChanged(String s) {
+        int position = 0;
+        // 该字母首次出现的位置
+        if (mAdapter != null) {
+            position = mAdapter.getPositionForSection(s.charAt(0));
+        }
+        if (position != -1) {
+            mListView.setSelection(position);
+        } else if (s.contains("#")) {
+            mListView.setSelection(0);
+        }
+    }
 }
