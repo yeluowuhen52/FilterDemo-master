@@ -14,16 +14,12 @@ import com.chs.filterdemo.bean.SliderMsg;
 import com.chs.filterdemo.util.HanziToPinyinUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv_filter;
     private DrawerLayout mDrawerLayout;
     //联系人信息
     private ArrayList<Contact> datas = new ArrayList<>();
-
-    //被选中的
-    private List<String> seletcedList;
 
     private FrameLayout mDrawerContent;
 
@@ -57,13 +53,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.drawer_content, fragment).commit();
     }
 
-
-    public List<String> getSlectedList() {
-        if (seletcedList == null) {
-            seletcedList = new ArrayList<>();
-        }
-        return seletcedList;
-    }
 
     public SliderMsg getFragmentContact() {
         return parser();

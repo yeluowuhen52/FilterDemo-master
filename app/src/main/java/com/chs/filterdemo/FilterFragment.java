@@ -3,19 +3,19 @@ package com.chs.filterdemo;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.databinding.DataBindingUtil;
 import android.support.v4.widget.DrawerLayout;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chs.filterdemo.bean.Contact;
+import com.chs.filterdemo.databinding.FragmentPatrolFilterBinding;
+import com.chs.filterdemo.util.DensityUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -34,53 +34,39 @@ import java.util.Set;
 public class FilterFragment extends BaseSliderFragmentPage {
     private DrawerLayout mDrawerLayout;
     private FrameLayout mDrawerContent;
-    private RelativeLayout rl_department;
-    private RelativeLayout rlSupply;
-    private ImageView iv_back;
-    private TextView department_selected;
-    private Button btn_confirm;
     private ArrayList<Contact> datas = new ArrayList<>();
 
     private TagAdapter<Contact> tagAdapter;
     private Set<Integer> set;
     private Fragment fragmentSecond;
 
-//    private String[] mVals = new String[]{"通常入库", "直销入库"};
-
     private ArrayList<Contact> contactBeans;
     private ArrayList<Contact> contactShow;
-    private ArrayList<String> selectedConcats;
 
-
-    private TagFlowLayout mFlowLayout;
-    private TagFlowLayout next_flowlayout;
-    private View view;
+    private FragmentPatrolFilterBinding binding;
 
     @Override
-    public View onMyCreateView(LayoutInflater inflater) {
-        view = inflater.inflate(R.layout.fragment_patrol_filter, null);
+    public View onMyCreateView(LayoutInflater inflater, ViewGroup container) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_patrol_filter, container, false);
         initEvent();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         contactBeans = (ArrayList<Contact>) ((MainActivity) getMyActivity()).getFragmentContact().getContacts();
-        selectedConcats = (ArrayList<String>) ((MainActivity) getMyActivity()).getSlectedList();
-        initView(view);
+        initView();
     }
 
     private void initEvent() {
-        rlSupply = (RelativeLayout) view.findViewById(R.id.rlSupply);
-        rlSupply.setOnClickListener(new View.OnClickListener() {
+        binding.rlSupply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNext();
             }
         });
-        iv_back = (ImageView) view.findViewById(R.id.iv_back);
-        iv_back.setOnClickListener(new View.OnClickListener() {
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(mDrawerContent);
@@ -88,32 +74,19 @@ public class FilterFragment extends BaseSliderFragmentPage {
         });
     }
 
-    private void initView(View view) {
-
-        String departmentName = getArguments().getString("departmentName");
-        mDrawerLayout = (DrawerLayout) getMyActivity().findViewById(R.id.drawer_layout);
+    private void initView() {
         mDrawerContent = (FrameLayout) getMyActivity().findViewById(R.id.drawer_content);
-        rl_department = (RelativeLayout) view.findViewById(R.id.rl_department);
-        department_selected = (TextView) view.findViewById(R.id.department_selected);
-        btn_confirm = (Button) view.findViewById(R.id.btn_confirm);
-
-        if (!TextUtils.isEmpty(departmentName)) {
-            department_selected.setText(departmentName);
-            department_selected.setTextColor(getResources().getColor(R.color.blue_text));
-        }
-
-        btn_confirm.setOnClickListener(new View.OnClickListener() {
+//        rl_department = (RelativeLayout) view.findViewById(R.id.rl_department);
+        binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getMyActivity(), mFlowLayout.getSelectedList().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getMyActivity(), binding.flowLayout.getSelectedList().toString(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
         final LayoutInflater mInflater = LayoutInflater.from(getActivity());
-        mFlowLayout = (TagFlowLayout) view.findViewById(R.id.id_flowlayout);
-        next_flowlayout = (TagFlowLayout) view.findViewById(R.id.next_flowlayout);
-
-        mFlowLayout.setOnClickListener(new View.OnClickListener() {
+        binding.flowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getMyActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
@@ -121,7 +94,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
         });
 
 
-        next_flowlayout.setOnClickListener(new View.OnClickListener() {
+        binding.nextFlowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getMyActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
@@ -144,9 +117,9 @@ public class FilterFragment extends BaseSliderFragmentPage {
                 @Override
                 public View getView(FlowLayout parent, int position, Contact contact) {
                     TextView tvLayout = (TextView) mInflater.inflate(R.layout.item_slider_tv,
-                            next_flowlayout, false);
+                            binding.nextFlowLayout, false);
                     float dimension = getResources().getDimension(R.dimen.slider_width);
-                    tvLayout.setWidth((int) (dimension / 3 - 10));
+                    tvLayout.setWidth((int) (dimension / 3 - DensityUtil.dp2px(15)));
                     tvLayout.setGravity(Gravity.CENTER);
                     tvLayout.setText(contact.getName().length() < 5 ? "  " + contact.getName() + "  " :
                             contact.getName().substring(0, 4) + "...");
@@ -165,9 +138,9 @@ public class FilterFragment extends BaseSliderFragmentPage {
         }
         tagAdapter.setSelectedList(set);
 
-        next_flowlayout.setAdapter(tagAdapter);
+        binding.nextFlowLayout.setAdapter(tagAdapter);
         //tagView监听
-        next_flowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+        binding.nextFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 contactBeans.get(position).setSelected(!contactBeans.get(position).isSelected());

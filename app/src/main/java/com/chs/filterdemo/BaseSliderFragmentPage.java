@@ -33,10 +33,10 @@ abstract public class BaseSliderFragmentPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = onMyCreateView(inflater);
+        View view = onMyCreateView(inflater,container);
         return view;
     }
 
-    abstract public View onMyCreateView(LayoutInflater inflater);
+    abstract public View onMyCreateView(LayoutInflater inflater, ViewGroup container);
 
 }

@@ -108,8 +108,8 @@ public class FirstPersonAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (onItemSelectedListener != null) {
-                    onItemSelectedListener.OnItemSelected(position);
                     userInfo.setSelected(!userInfo.isSelected());
+                    onItemSelectedListener.OnItemSelected(position);
                     notifyList();
                 }
             }
