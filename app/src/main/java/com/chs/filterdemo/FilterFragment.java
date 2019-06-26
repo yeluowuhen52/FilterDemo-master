@@ -15,9 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chs.filterdemo.bean.Contact;
-import com.chs.filterdemo.bean.SliderMsg;
-import com.chs.filterdemo.util.Acache;
-import com.chs.filterdemo.util.HanziToPinyinUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -158,17 +155,11 @@ public class FilterFragment extends BaseSliderFragmentPage {
                 tv.setText(s.getName().length() < 5 ? "  " + s.getName() + "  " : s.getName().substring(0, 4) + "...");
                 return tv;
             }
-
         });
     }
 
 
     private void showNext() {
-        SliderMsg sliderMsg= parser();
-
-        Acache.get(getActivity()).put("supply", sliderMsg);
-        Object object= Acache.get(getActivity()).getAsObject("supply");
-
         if (fragmentSecond == null) {
             fragmentSecond = new FilterFragmentSecond();
         }
@@ -178,41 +169,9 @@ public class FilterFragment extends BaseSliderFragmentPage {
         fragmentTransaction.replace(R.id.drawer_content, fragmentSecond);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
-
-
-
     }
 
 
-    private SliderMsg parser() {
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("李三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("王三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("张三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
-        return new SliderMsg(0, datas);
-    }
 
 
 }

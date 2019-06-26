@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
         tv_filter = (TextView) findViewById(R.id.tv_filter);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerContent = (FrameLayout) findViewById(R.id.drawer_content);
@@ -53,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public SliderMsg getFragmentContact(){
+        return parser();
+    }
     private SliderMsg parser() {
         for (int i = 0; i < 10; i++) {
             Contact data = new Contact();

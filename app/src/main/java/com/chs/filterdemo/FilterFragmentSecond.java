@@ -43,8 +43,6 @@ public class FilterFragmentSecond extends BaseSliderFragmentPage implements Side
 
 
     private void initView(View view) {
-
-
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,33 +67,7 @@ public class FilterFragmentSecond extends BaseSliderFragmentPage implements Side
     }
 
     private void parser() {
-//        for (int i = 0; i < 10; i++) {
-//            Contact data = new Contact();
-//            data.setName("李三");
-//            data.setUrl("aa");
-//            data.setId(i);
-//            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-//            datas.add(data);
-//        }
-//
-//        for (int i = 0; i < 10; i++) {
-//            Contact data = new Contact();
-//            data.setName("王三");
-//            data.setUrl("aa");
-//            data.setId(i);
-//            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-//            datas.add(data);
-//        }
-//
-//        for (int i = 0; i < 10; i++) {
-//            Contact data = new Contact();
-//            data.setName("张三");
-//            data.setUrl("aa");
-//            data.setId(i);
-//            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-//            datas.add(data);
-//        }
-        SliderMsg sliderMsg= (SliderMsg) Acache.get(getMyActivity()).getAsObject("supply");
+        SliderMsg sliderMsg= ((MainActivity)getMyActivity()).getFragmentContact();
         datas = (ArrayList<Contact>) ((SliderMsg) Acache.get(getMyActivity()).getAsObject("supply")).getContacts();
 
 //        mFooterView.setText(datas.size() + "位联系人");
