@@ -146,7 +146,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
             public View getView(FlowLayout parent, int position, TestBean s) {
                 TextView tv = (TextView) mInflater.inflate(R.layout.tv,
                         next_flowlayout, false);
-                tv.setText(s.getName().length() < 5 ? " " + s.getName() + " " : s.getName().substring(0, 4) + "..");
+                tv.setText(s.getName().length() < 5 ? "  " + s.getName() + "  " : s.getName().substring(0, 4) + "...");
                 return tv;
             }
 

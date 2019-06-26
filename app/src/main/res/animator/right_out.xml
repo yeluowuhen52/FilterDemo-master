@@ -4,9 +4,9 @@
 
     <objectAnimator
         android:duration="500"
-        android:propertyName="x"
-        android:valueFrom="0"
-        android:valueTo="300"
+        android:propertyName="translationX"
+        android:valueFrom="0dp"
+        android:valueTo="300dp"
         android:valueType="floatType" />
 
-</set>  
+</set>

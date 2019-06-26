@@ -153,7 +153,6 @@
             android:id="@+id/next_flowlayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             zhy:max_select="-1"/>
 
     </LinearLayout>
