@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,10 +12,11 @@ import android.widget.TextView;
 import com.chs.filterdemo.adapter.FirstPersonAdapter;
 import com.chs.filterdemo.bean.Contact;
 import com.chs.filterdemo.bean.SliderMsg;
-import com.chs.filterdemo.util.Acache;
 import com.chs.filterdemo.widget.SideBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 二级Fragment
@@ -30,9 +32,13 @@ public class FilterFragmentSecond extends BaseSliderFragmentPage implements Side
 //    String[] list;
 
     private ListView mListView;
+    //被选中的
+    private List<String> seletcedList;
     //    private TextView mFooterView;
     private ArrayList<Contact> datas = new ArrayList<>();
     private FirstPersonAdapter mAdapter;
+
+    private Button btn_confirm;
 
     @Override
     public View onMyCreateView(LayoutInflater inflater) {
@@ -43,6 +49,8 @@ public class FilterFragmentSecond extends BaseSliderFragmentPage implements Side
 
 
     private void initView(View view) {
+        seletcedList = ((MainActivity) getMyActivity()).getSlectedList();
+        btn_confirm = (Button) view.findViewById(R.id.btn_confirm);
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,17 +75,18 @@ public class FilterFragmentSecond extends BaseSliderFragmentPage implements Side
     }
 
     private void parser() {
-        SliderMsg sliderMsg= ((MainActivity)getMyActivity()).getFragmentContact();
-        datas = (ArrayList<Contact>) ((SliderMsg) Acache.get(getMyActivity()).getAsObject("supply")).getContacts();
+        SliderMsg sliderMsg = ((MainActivity) getMyActivity()).getFragmentContact();
 
 //        mFooterView.setText(datas.size() + "位联系人");
-        mAdapter = new FirstPersonAdapter(getMyActivity(), datas);
+        mAdapter = new FirstPersonAdapter(getMyActivity(), sliderMsg.getContacts());
         mListView.setAdapter(mAdapter);
 
         mAdapter.setOnItemSelectedListener(new FirstPersonAdapter.OnItemSelectedListener() {
             @Override
             public void OnItemSelected(int position) {
-
+                seletcedList.add(String.valueOf(position));
+                Collections.sort(seletcedList);
+                btn_confirm.setText("确定(" + seletcedList.size() + "条)");
             }
         });
 

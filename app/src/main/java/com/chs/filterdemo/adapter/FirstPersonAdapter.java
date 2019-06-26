@@ -86,7 +86,6 @@ public class FirstPersonAdapter extends BaseAdapter {
             viewHolder.tvLetter.setText(prevData.getFirstChar() + "");
             viewHolder.tvLine.setVisibility(View.VISIBLE);
         } else {
-
             //如果和上一个item的首字母不同，则认为是新分类的开始
             Contact prevData = mList.get(position - 1);
             if (userInfo.getFirstChar() != prevData.getFirstChar()) {

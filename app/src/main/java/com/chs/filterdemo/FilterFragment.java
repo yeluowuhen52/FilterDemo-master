@@ -20,6 +20,8 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 主Fragment
@@ -38,31 +40,45 @@ public class FilterFragment extends BaseSliderFragmentPage {
     private Button btn_confirm;
     private ArrayList<Contact> datas = new ArrayList<>();
 
+    private TagAdapter<Contact> tagAdapter;
+    private Set<Integer> set;
     private Fragment fragmentSecond;
 
 //    private String[] mVals = new String[]{"通常入库", "直销入库"};
 
-    private ArrayList<TestBean> testBeans;
-    private ArrayList<TestBean> testBeansTest;
+    private ArrayList<Contact> contactBeans;
+    private ArrayList<Contact> contactShow;
+    private ArrayList<String> selectedConcats;
+
 
     private TagFlowLayout mFlowLayout;
     private TagFlowLayout next_flowlayout;
+    private View view;
 
     @Override
     public View onMyCreateView(LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.fragment_patrol_filter, null);
-        initView(view);
+        view = inflater.inflate(R.layout.fragment_patrol_filter, null);
         initEvent();
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        contactBeans = (ArrayList<Contact>) ((MainActivity) getMyActivity()).getFragmentContact().getContacts();
+        selectedConcats = (ArrayList<String>) ((MainActivity) getMyActivity()).getSlectedList();
+        initView(view);
+    }
+
     private void initEvent() {
+        rlSupply = (RelativeLayout) view.findViewById(R.id.rlSupply);
         rlSupply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNext();
             }
         });
+        iv_back = (ImageView) view.findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,30 +88,11 @@ public class FilterFragment extends BaseSliderFragmentPage {
     }
 
     private void initView(View view) {
-        testBeans = new ArrayList<>();
-        testBeans.add(new TestBean("通常入库"));
-        testBeans.add(new TestBean("直销入库"));
-
-        testBeansTest = new ArrayList<>();
-        testBeansTest.add(new TestBean("通常入库"));
-        testBeansTest.add(new TestBean("直销入库sccevvrgq"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
-        testBeansTest.add(new TestBean("直销入库"));
 
         String departmentName = getArguments().getString("departmentName");
         mDrawerLayout = (DrawerLayout) getMyActivity().findViewById(R.id.drawer_layout);
         mDrawerContent = (FrameLayout) getMyActivity().findViewById(R.id.drawer_content);
         rl_department = (RelativeLayout) view.findViewById(R.id.rl_department);
-        rlSupply = (RelativeLayout) view.findViewById(R.id.rlSupply);
-        iv_back = (ImageView) view.findViewById(R.id.iv_back);
         department_selected = (TextView) view.findViewById(R.id.department_selected);
         btn_confirm = (Button) view.findViewById(R.id.btn_confirm);
 
@@ -122,15 +119,6 @@ public class FilterFragment extends BaseSliderFragmentPage {
             }
         });
 
-        mFlowLayout.setAdapter(new TagAdapter<TestBean>(testBeans) {
-            @Override
-            public View getView(FlowLayout parent, int position, TestBean s) {
-                TextView tv = (TextView) mInflater.inflate(R.layout.tv,
-                        mFlowLayout, false);
-                tv.setText(s.getName());
-                return tv;
-            }
-        });
 
         next_flowlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,22 +126,56 @@ public class FilterFragment extends BaseSliderFragmentPage {
                 Toast.makeText(getMyActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
             }
         });
-        ArrayList<TestBean> testBeansShow = new ArrayList<>();
-        if (testBeansTest.size() > 6) {
+//        ArrayList<TestBean> testBeansShow = new ArrayList<>();
+//        if (testBeansTest.size() > 6) {
+//            for (int i = 0; i < 6; i++) {
+//                testBeansShow.add(testBeansTest.get(i));
+//            }
+//        } else {
+//            testBeansShow.addAll(testBeansTest);
+//        }
+        if (contactShow == null) {
+            contactShow = new ArrayList<>();
+        }
+        contactShow.clear();
+        if (contactBeans.size() > 6) {
             for (int i = 0; i < 6; i++) {
-                testBeansShow.add(testBeansTest.get(i));
+                contactShow.add(contactBeans.get(i));
             }
         } else {
-            testBeansShow.addAll(testBeansTest);
+            contactShow.addAll(contactBeans);
+        }
+        if (tagAdapter == null) {
+            tagAdapter = new TagAdapter<Contact>(contactShow) {
+                @Override
+                public View getView(FlowLayout parent, int position, Contact contact) {
+
+                    TextView tv = (TextView) mInflater.inflate(R.layout.tv,
+                            next_flowlayout, false);
+                    tv.setText(contact.getName().length() < 5 ? "  " + contact.getName() + "  " :
+                            contact.getName().substring(0, 4) + "...");
+                    return tv;
+                }
+            };
+        }
+        if (set == null) {
+            set = new HashSet();
         }
 
-        next_flowlayout.setAdapter(new TagAdapter<TestBean>(testBeansShow) {
+        for (Contact contact : contactBeans) {
+            if (contact.isSelected()) {
+                set.add(contactBeans.indexOf(contact));
+            }
+        }
+        tagAdapter.setSelectedList(set);
+
+        next_flowlayout.setAdapter(tagAdapter);
+        //tagView监听
+        next_flowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
-            public View getView(FlowLayout parent, int position, TestBean s) {
-                TextView tv = (TextView) mInflater.inflate(R.layout.tv,
-                        next_flowlayout, false);
-                tv.setText(s.getName().length() < 5 ? "  " + s.getName() + "  " : s.getName().substring(0, 4) + "...");
-                return tv;
+            public boolean onTagClick(View view, int position, FlowLayout parent) {
+                contactBeans.get(position).setSelected(!contactBeans.get(position).isSelected());
+                return false;
             }
         });
     }
@@ -170,8 +192,6 @@ public class FilterFragment extends BaseSliderFragmentPage {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
     }
-
-
 
 
 }

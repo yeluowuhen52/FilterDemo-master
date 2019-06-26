@@ -14,11 +14,17 @@ import com.chs.filterdemo.bean.SliderMsg;
 import com.chs.filterdemo.util.HanziToPinyinUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv_filter;
     private DrawerLayout mDrawerLayout;
+    //联系人信息
     private ArrayList<Contact> datas = new ArrayList<>();
+
+    //被选中的
+    private List<String> seletcedList;
+
     private FrameLayout mDrawerContent;
 
     @Override
@@ -52,36 +58,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public SliderMsg getFragmentContact(){
+    public List<String> getSlectedList() {
+        if (seletcedList == null) {
+            seletcedList = new ArrayList<>();
+        }
+        return seletcedList;
+    }
+
+    public SliderMsg getFragmentContact() {
         return parser();
     }
+
     private SliderMsg parser() {
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("李三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
+        if(datas.size() == 0){
+            for (int i = 0; i < 10; i++) {
+                Contact data = new Contact();
+                data.setName("李三");
+                data.setUrl("aa");
+                data.setId(i);
+                data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+                datas.add(data);
+            }
+
+            for (int i = 0; i < 10; i++) {
+                Contact data = new Contact();
+                data.setName("王三");
+                data.setUrl("aa");
+                data.setId(i);
+                data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+                datas.add(data);
+            }
+
+            for (int i = 0; i < 10; i++) {
+                Contact data = new Contact();
+                data.setName("张三");
+                data.setUrl("aa");
+                data.setId(i);
+                data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+                datas.add(data);
+            }
         }
 
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("王三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("张三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
         return new SliderMsg(0, datas);
     }
 
