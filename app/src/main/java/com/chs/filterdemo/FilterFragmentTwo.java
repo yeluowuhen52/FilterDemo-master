@@ -1,13 +1,9 @@
 package com.chs.filterdemo;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,20 +20,19 @@ import java.util.ArrayList;
  * 邮箱：657083984@qq.com
  */
 
-public class FilterFragmentTwo extends Fragment implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
+public class FilterFragmentTwo extends BaseSliderFragmentPage implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
     //    private ListView lv_department;
     private ImageView iv_back;
 //    private String departmentName = "";
 //    String[] list;
 
     private ListView mListView;
-    private TextView mFooterView;
+//    private TextView mFooterView;
     private ArrayList<Contact> datas = new ArrayList<>();
     private FirstPersonAdapter mAdapter;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onMyCreateView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.fragment_department_select, null);
         initView(view);
         return view;
@@ -49,9 +44,10 @@ public class FilterFragmentTwo extends Fragment implements SideBar.OnTouchingLet
             @Override
             public void onClick(View v) {
 //                showNext();
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                getFragmentManager().popBackStackImmediate();
             }
         });
+
 
         SideBar mSideBar = (SideBar) view.findViewById(R.id.school_friend_sidrbar);
         TextView mDialog = (TextView) view.findViewById(R.id.school_friend_dialog);
@@ -60,21 +56,13 @@ public class FilterFragmentTwo extends Fragment implements SideBar.OnTouchingLet
         mSideBar.setOnTouchingLetterChangedListener(this);
 
         // 给listView设置adapter
-        mFooterView = (TextView) View.inflate(getActivity(), R.layout.item_list_contact_count, null);
-        mListView.addFooterView(mFooterView);
+//        mFooterView = (TextView) View.inflate(getActivity(), R.layout.item_list_contact_count, null);
+//        mListView.addFooterView(mFooterView);
 
         parser();
     }
 
     private void parser() {
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("张三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
         for (int i = 0; i < 10; i++) {
             Contact data = new Contact();
             data.setName("李三");
@@ -92,7 +80,17 @@ public class FilterFragmentTwo extends Fragment implements SideBar.OnTouchingLet
             data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
             datas.add(data);
         }
-        mFooterView.setText(datas.size() + "位联系人");
+
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("张三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+
+//        mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new FirstPersonAdapter(getActivity(), datas);
         mListView.setAdapter(mAdapter);
 

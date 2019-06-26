@@ -1,15 +1,12 @@
 package com.chs.filterdemo;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -28,7 +25,7 @@ import java.util.ArrayList;
  * 邮箱：657083984@qq.com
  */
 
-public class FilterFragment extends Fragment {
+public class FilterFragment extends BaseSliderFragmentPage {
     private DrawerLayout mDrawerLayout;
     private FrameLayout mDrawerContent;
     private RelativeLayout rl_department;
@@ -45,10 +42,8 @@ public class FilterFragment extends Fragment {
     private TagFlowLayout mFlowLayout;
     private TagFlowLayout next_flowlayout;
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onMyCreateView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.fragment_patrol_filter, null);
         initView(view);
         initEvent();
@@ -161,9 +156,11 @@ public class FilterFragment extends Fragment {
 
     private void showNext() {
         Fragment fragment = new FilterFragmentTwo();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.right_in, R.anim.left_out, R.anim.left_in, R.anim.right_out);
+        fragmentTransaction.setCustomAnimations(R.animator.right_in, R.animator.left_out, R.animator.left_in, R.animator.right_out);
+
+
         fragmentTransaction.replace(R.id.drawer_content, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
