@@ -14,6 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chs.filterdemo.bean.Contact;
+import com.chs.filterdemo.bean.SliderMsg;
+import com.chs.filterdemo.util.Acache;
+import com.chs.filterdemo.util.HanziToPinyinUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -21,8 +25,10 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 import java.util.ArrayList;
 
 /**
- * 作者：chs on 2016/10/10 10:07
- * 邮箱：657083984@qq.com
+ * 主Fragment
+ *
+ * @author Jiang
+ * @date 2019-06-26
  */
 
 public class FilterFragment extends BaseSliderFragmentPage {
@@ -33,6 +39,9 @@ public class FilterFragment extends BaseSliderFragmentPage {
     private ImageView iv_back;
     private TextView department_selected;
     private Button btn_confirm;
+    private ArrayList<Contact> datas = new ArrayList<>();
+
+    private Fragment fragmentSecond;
 
 //    private String[] mVals = new String[]{"通常入库", "直销入库"};
 
@@ -155,15 +164,56 @@ public class FilterFragment extends BaseSliderFragmentPage {
 
 
     private void showNext() {
-        Fragment fragment = new FilterFragmentTwo();
+        SliderMsg sliderMsg= parser();
+
+        Acache.get(getActivity()).put("supply", sliderMsg);
+        Object object= Acache.get(getActivity()).getAsObject("supply");
+
+        if (fragmentSecond == null) {
+            fragmentSecond = new FilterFragmentSecond();
+        }
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.animator.right_in, R.animator.left_out, R.animator.left_in, R.animator.right_out);
-
-
-        fragmentTransaction.replace(R.id.drawer_content, fragment);
+        fragmentTransaction.replace(R.id.drawer_content, fragmentSecond);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
+
+
+
     }
 
+
+    private SliderMsg parser() {
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("李三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("王三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            Contact data = new Contact();
+            data.setName("张三");
+            data.setUrl("aa");
+            data.setId(i);
+            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+            datas.add(data);
+        }
+        return new SliderMsg(0, datas);
+    }
+
+
 }
+

@@ -15,12 +15,14 @@
  */
 package com.chs.filterdemo.bean;
 
+import java.io.Serializable;
+
 /**
  * 联系人javabean
  *
  * @author kymjs (http://www.kymjs.com/) on 9/16/15.
  */
-public class Contact implements Comparable<Contact> {
+public class Contact implements Comparable<Contact>, Serializable {
     private String name;
     private int id;
     private String url;

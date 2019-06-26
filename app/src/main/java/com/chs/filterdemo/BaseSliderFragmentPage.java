@@ -26,11 +26,6 @@ abstract public class BaseSliderFragmentPage extends Fragment {
         actReference = new WeakReference<>(getActivity());
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     public Activity getMyActivity() {
         return actReference.get();
     }
@@ -43,4 +38,5 @@ abstract public class BaseSliderFragmentPage extends Fragment {
     }
 
     abstract public View onMyCreateView(LayoutInflater inflater);
+
 }

@@ -10,24 +10,27 @@ import android.widget.TextView;
 
 import com.chs.filterdemo.adapter.FirstPersonAdapter;
 import com.chs.filterdemo.bean.Contact;
-import com.chs.filterdemo.util.HanziToPinyinUtil;
+import com.chs.filterdemo.bean.SliderMsg;
+import com.chs.filterdemo.util.Acache;
 import com.chs.filterdemo.widget.SideBar;
 
 import java.util.ArrayList;
 
 /**
- * 作者：chs on 2016/10/22 16:01
- * 邮箱：657083984@qq.com
+ * 二级Fragment
+ *
+ * @author Jiang
+ * @date 2019-06-26
  */
 
-public class FilterFragmentTwo extends BaseSliderFragmentPage implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
+public class FilterFragmentSecond extends BaseSliderFragmentPage implements SideBar.OnTouchingLetterChangedListener, TextWatcher {
     //    private ListView lv_department;
     private ImageView iv_back;
 //    private String departmentName = "";
 //    String[] list;
 
     private ListView mListView;
-//    private TextView mFooterView;
+    //    private TextView mFooterView;
     private ArrayList<Contact> datas = new ArrayList<>();
     private FirstPersonAdapter mAdapter;
 
@@ -38,7 +41,10 @@ public class FilterFragmentTwo extends BaseSliderFragmentPage implements SideBar
         return view;
     }
 
+
     private void initView(View view) {
+
+
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,43 +69,45 @@ public class FilterFragmentTwo extends BaseSliderFragmentPage implements SideBar
     }
 
     private void parser() {
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("李三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("王三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            Contact data = new Contact();
-            data.setName("张三");
-            data.setUrl("aa");
-            data.setId(i);
-            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
-            datas.add(data);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            Contact data = new Contact();
+//            data.setName("李三");
+//            data.setUrl("aa");
+//            data.setId(i);
+//            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+//            datas.add(data);
+//        }
+//
+//        for (int i = 0; i < 10; i++) {
+//            Contact data = new Contact();
+//            data.setName("王三");
+//            data.setUrl("aa");
+//            data.setId(i);
+//            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+//            datas.add(data);
+//        }
+//
+//        for (int i = 0; i < 10; i++) {
+//            Contact data = new Contact();
+//            data.setName("张三");
+//            data.setUrl("aa");
+//            data.setId(i);
+//            data.setPinyin(HanziToPinyinUtil.getPinYin(data.getName()));
+//            datas.add(data);
+//        }
+        SliderMsg sliderMsg= (SliderMsg) Acache.get(getMyActivity()).getAsObject("supply");
+        datas = (ArrayList<Contact>) ((SliderMsg) Acache.get(getMyActivity()).getAsObject("supply")).getContacts();
 
 //        mFooterView.setText(datas.size() + "位联系人");
         mAdapter = new FirstPersonAdapter(getMyActivity(), datas);
         mListView.setAdapter(mAdapter);
 
-      mAdapter.setOnItemSelectedListener(new FirstPersonAdapter.OnItemSelectedListener() {
-          @Override
-          public void OnItemSelected(int position) {
+        mAdapter.setOnItemSelectedListener(new FirstPersonAdapter.OnItemSelectedListener() {
+            @Override
+            public void OnItemSelected(int position) {
 
-          }
-      });
+            }
+        });
 
     }
 
@@ -131,4 +139,5 @@ public class FilterFragmentTwo extends BaseSliderFragmentPage implements SideBar
             mListView.setSelection(0);
         }
     }
+
 }
