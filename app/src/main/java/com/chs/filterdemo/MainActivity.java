@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         return new SliderMsg(0, datas);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

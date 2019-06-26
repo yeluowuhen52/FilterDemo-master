@@ -34,14 +34,17 @@ import java.util.Set;
 public class FilterFragment extends BaseSliderFragmentPage {
     private DrawerLayout mDrawerLayout;
     private FrameLayout mDrawerContent;
-    private ArrayList<Contact> datas = new ArrayList<>();
 
     private TagAdapter<Contact> tagAdapter;
-    private Set<Integer> set;
+    private TagAdapter<String> instoreTypeAdapter;
+    private Set<Integer> supplySet;
+    private Set<Integer> instoreTypeSet;
     private Fragment fragmentSecond;
 
     private ArrayList<Contact> contactBeans;
     private ArrayList<Contact> contactShow;
+
+    private ArrayList<String> InStoreType;
 
     private FragmentPatrolFilterBinding binding;
 
@@ -60,6 +63,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
     }
 
     private void initEvent() {
+        mDrawerLayout = (DrawerLayout) ((MainActivity)getMyActivity()).findViewById(R.id.drawer_layout);
         binding.rlSupply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +79,39 @@ public class FilterFragment extends BaseSliderFragmentPage {
     }
 
     private void initView() {
+        InStoreType = new ArrayList<>();
+        InStoreType.add("通常入库");
+        InStoreType.add("直销入库");
+
+        if (instoreTypeSet == null) {
+            instoreTypeSet = new HashSet<>();
+        }
+
+        final LayoutInflater mInflater = LayoutInflater.from(getActivity());
+        if (instoreTypeAdapter == null) {
+            instoreTypeAdapter = new TagAdapter<String>(InStoreType) {
+                @Override
+                public View getView(FlowLayout parent, int position, String string) {
+                    TextView tvLayout = (TextView) mInflater.inflate(R.layout.item_slider_tv,
+                            binding.nextFlowLayout, false);
+                    float dimension = getResources().getDimension(R.dimen.slider_width);
+                    tvLayout.setWidth((int) (dimension / 3 - DensityUtil.dp2px(15)));
+                    tvLayout.setGravity(Gravity.CENTER);
+                    tvLayout.setText(string.length() < 5 ? "  " + string + "  " :
+                            string.substring(0, 4) + "...");
+                    return tvLayout;
+                }
+            };
+        }
+        instoreTypeAdapter.setSelectedList(instoreTypeSet);
+        binding.flowLayout.setAdapter(instoreTypeAdapter);
+        binding.flowLayout.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+            @Override
+            public void onSelected(Set<Integer> selectPosSet) {
+                instoreTypeSet.clear();
+                instoreTypeSet.addAll(selectPosSet);
+            }
+        });
         mDrawerContent = (FrameLayout) getMyActivity().findViewById(R.id.drawer_content);
 //        rl_department = (RelativeLayout) view.findViewById(R.id.rl_department);
         binding.btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +122,6 @@ public class FilterFragment extends BaseSliderFragmentPage {
             }
         });
 
-        final LayoutInflater mInflater = LayoutInflater.from(getActivity());
         binding.flowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,16 +163,16 @@ public class FilterFragment extends BaseSliderFragmentPage {
                 }
             };
         }
-        if (set == null) {
-            set = new HashSet();
+        if (supplySet == null) {
+            supplySet = new HashSet();
         }
 
         for (Contact contact : contactBeans) {
             if (contact.isSelected()) {
-                set.add(contactBeans.indexOf(contact));
+                supplySet.add(contactBeans.indexOf(contact));
             }
         }
-        tagAdapter.setSelectedList(set);
+        tagAdapter.setSelectedList(supplySet);
 
         binding.nextFlowLayout.setAdapter(tagAdapter);
         //tagView监听
