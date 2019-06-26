@@ -85,8 +85,8 @@ public class FilterFragment extends BaseSliderFragmentPage {
         testBeansTest.add(new TestBean("直销入库"));
 
         String departmentName = getArguments().getString("departmentName");
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        mDrawerContent = (FrameLayout) getActivity().findViewById(R.id.drawer_content);
+        mDrawerLayout = (DrawerLayout) getMyActivity().findViewById(R.id.drawer_layout);
+        mDrawerContent = (FrameLayout) getMyActivity().findViewById(R.id.drawer_content);
         rl_department = (RelativeLayout) view.findViewById(R.id.rl_department);
         rlSupply = (RelativeLayout) view.findViewById(R.id.rlSupply);
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
@@ -101,7 +101,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), mFlowLayout.getSelectedList().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getMyActivity(), mFlowLayout.getSelectedList().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -112,7 +112,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
         mFlowLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getMyActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -129,7 +129,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
         next_flowlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getMyActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
             }
         });
         ArrayList<TestBean> testBeansShow = new ArrayList<>();

@@ -91,7 +91,7 @@ public class FilterFragmentTwo extends BaseSliderFragmentPage implements SideBar
         }
 
 //        mFooterView.setText(datas.size() + "位联系人");
-        mAdapter = new FirstPersonAdapter(getActivity(), datas);
+        mAdapter = new FirstPersonAdapter(getMyActivity(), datas);
         mListView.setAdapter(mAdapter);
 
       mAdapter.setOnItemSelectedListener(new FirstPersonAdapter.OnItemSelectedListener() {
