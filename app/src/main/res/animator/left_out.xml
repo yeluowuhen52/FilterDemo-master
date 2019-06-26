@@ -6,6 +6,6 @@
         android:duration="500"
         android:propertyName="translationX"
         android:valueFrom="0dp"
-        android:valueTo="-300dp"
+        android:valueTo="@dimen/sub_slider_width"
         android:valueType="floatType" />
 </set>  

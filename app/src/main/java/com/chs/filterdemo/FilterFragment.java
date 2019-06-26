@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -126,18 +127,11 @@ public class FilterFragment extends BaseSliderFragmentPage {
                 Toast.makeText(getMyActivity(), "FlowLayout Clicked", Toast.LENGTH_SHORT).show();
             }
         });
-//        ArrayList<TestBean> testBeansShow = new ArrayList<>();
-//        if (testBeansTest.size() > 6) {
-//            for (int i = 0; i < 6; i++) {
-//                testBeansShow.add(testBeansTest.get(i));
-//            }
-//        } else {
-//            testBeansShow.addAll(testBeansTest);
-//        }
         if (contactShow == null) {
             contactShow = new ArrayList<>();
         }
         contactShow.clear();
+        //不允许显示超过6个
         if (contactBeans.size() > 6) {
             for (int i = 0; i < 6; i++) {
                 contactShow.add(contactBeans.get(i));
@@ -149,12 +143,14 @@ public class FilterFragment extends BaseSliderFragmentPage {
             tagAdapter = new TagAdapter<Contact>(contactShow) {
                 @Override
                 public View getView(FlowLayout parent, int position, Contact contact) {
-
-                    TextView tv = (TextView) mInflater.inflate(R.layout.tv,
+                    TextView tvLayout = (TextView) mInflater.inflate(R.layout.item_slider_tv,
                             next_flowlayout, false);
-                    tv.setText(contact.getName().length() < 5 ? "  " + contact.getName() + "  " :
+                    float dimension = getResources().getDimension(R.dimen.slider_width);
+                    tvLayout.setWidth((int) (dimension / 3 - 10));
+                    tvLayout.setGravity(Gravity.CENTER);
+                    tvLayout.setText(contact.getName().length() < 5 ? "  " + contact.getName() + "  " :
                             contact.getName().substring(0, 4) + "...");
-                    return tv;
+                    return tvLayout;
                 }
             };
         }
@@ -180,7 +176,9 @@ public class FilterFragment extends BaseSliderFragmentPage {
         });
     }
 
-
+    /**
+     * 跳转Fragment
+     */
     private void showNext() {
         if (fragmentSecond == null) {
             fragmentSecond = new FilterFragmentSecond();
