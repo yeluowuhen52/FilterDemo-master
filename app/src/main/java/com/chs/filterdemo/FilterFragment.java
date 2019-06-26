@@ -134,7 +134,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
         });
         ArrayList<TestBean> testBeansShow = new ArrayList<>();
         if (testBeansTest.size() > 6) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 6; i++) {
                 testBeansShow.add(testBeansTest.get(i));
             }
         } else {
@@ -146,7 +146,7 @@ public class FilterFragment extends BaseSliderFragmentPage {
             public View getView(FlowLayout parent, int position, TestBean s) {
                 TextView tv = (TextView) mInflater.inflate(R.layout.tv,
                         next_flowlayout, false);
-                tv.setText(s.getName().length() < 5 ? s.getName() : s.getName().substring(0, 4) + "...");
+                tv.setText(s.getName().length() < 5 ? " " + s.getName() + " " : s.getName().substring(0, 4) + "..");
                 return tv;
             }
 
